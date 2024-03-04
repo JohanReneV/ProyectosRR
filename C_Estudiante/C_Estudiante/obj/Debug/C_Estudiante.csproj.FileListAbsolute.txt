@@ -1,0 +1,7 @@
+C:\Users\Paula\source\repos\C_Estudiante\C_Estudiante\obj\Debug\C_Estudiante.csproj.AssemblyReference.cache
+C:\Users\Paula\source\repos\C_Estudiante\C_Estudiante\obj\Debug\C_Estudiante.csproj.CoreCompileInputs.cache
+C:\Users\Paula\source\repos\C_Estudiante\C_Estudiante\bin\Debug\C_Estudiante.exe.config
+C:\Users\Paula\source\repos\C_Estudiante\C_Estudiante\bin\Debug\C_Estudiante.exe
+C:\Users\Paula\source\repos\C_Estudiante\C_Estudiante\bin\Debug\C_Estudiante.pdb
+C:\Users\Paula\source\repos\C_Estudiante\C_Estudiante\obj\Debug\C_Estudiante.exe
+C:\Users\Paula\source\repos\C_Estudiante\C_Estudiante\obj\Debug\C_Estudiante.pdb
