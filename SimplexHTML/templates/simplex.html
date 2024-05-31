@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Metodo-Simplex</title>
+<style>
+body {
+  background-color: #e0f2f7;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+.header {
+  background-color: #005cbf;
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.header img {
+  height: 80px;
+  margin-right: 30px;
+  border-radius: 20px;
+  padding: 10px;
+}
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.button {
+  background-color: #005cbf;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+.footer {
+  background-color: #005cbf;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <img src="logo-u-amazonia.png" alt="Logo">
+  <h1>Pagina para solucionar problemas por Metodo Simplex</h1>
+</div>
+<div class="content">
+  <h2>Metodo-Simplex</h2>
+  <p>Método: <select id="metodo">
+    <option>Simplex</option>
+    <option>Grafica</option>
+  </select></p>
+  <p>¿Cuántas variables de decisión tiene el problema? <input type="text" id="variables"></p>
+  <p>¿Cuántas restricciones? <input type="text" id="restricciones"></p>
+  <button class="button" onclick="verificarCampos()">Continuar</button>
+  <p id="error" style="color: red;"></p>
+</div>
+<div class="footer">
+  <p>JHOJAN RENE VERA-BAIRON FERNANDO PEREZ - 2024 - UNIVERSIDAD DE LA AMAZONIA</p>
+</div>
+
+<script>
+  function verificarCampos() {
+    var variables = document.getElementById("variables").value;
+    var restricciones = document.getElementById("restricciones").value;
+
+    if (variables === "" || restricciones === "") {
+      document.getElementById("error").innerHTML = "Por favor, complete todos los campos";
+    } else {
+      window.location.href = "form.html?variables=" + variables + "&restricciones=" + restricciones;
+    }
+  }
+</script>
+
+</body>
+</html>

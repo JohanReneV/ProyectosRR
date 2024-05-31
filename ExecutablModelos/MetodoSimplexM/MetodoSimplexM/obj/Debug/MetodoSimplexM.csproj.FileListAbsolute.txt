@@ -1,0 +1,7 @@
+C:\Users\Paula\Desktop\ExecutablModelos\MetodoSimplexM\MetodoSimplexM\bin\Debug\MetodoSimplexM.exe.config
+C:\Users\Paula\Desktop\ExecutablModelos\MetodoSimplexM\MetodoSimplexM\bin\Debug\MetodoSimplexM.exe
+C:\Users\Paula\Desktop\ExecutablModelos\MetodoSimplexM\MetodoSimplexM\bin\Debug\MetodoSimplexM.pdb
+C:\Users\Paula\Desktop\ExecutablModelos\MetodoSimplexM\MetodoSimplexM\obj\Debug\MetodoSimplexM.csproj.AssemblyReference.cache
+C:\Users\Paula\Desktop\ExecutablModelos\MetodoSimplexM\MetodoSimplexM\obj\Debug\MetodoSimplexM.csproj.CoreCompileInputs.cache
+C:\Users\Paula\Desktop\ExecutablModelos\MetodoSimplexM\MetodoSimplexM\obj\Debug\MetodoSimplexM.exe
+C:\Users\Paula\Desktop\ExecutablModelos\MetodoSimplexM\MetodoSimplexM\obj\Debug\MetodoSimplexM.pdb

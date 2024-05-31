@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Resultado Simplex</title>
+<style>
+body {
+  background-color: #e0f2f7;
+  font-family: sans-serif;
+  padding: 20px;
+}
+.header {
+  background-color: #005cbf;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+button {
+  background-color: #005cbf;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+}
+.arrow {
+  display: inline-block;
+  width: 100px; /* Ajusta el tamaño según sea necesario */
+  height: auto;
+  margin: 0 20px;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Metodo-Simplex</h1>
+</div>
+<div class="content">
+  <p>Pasamos el problema a la forma estándar, añadiendo variables de exceso, holgura, y artificiales según corresponda.</p>
+  <ul id="constraintDetails">
+  </ul>
+  <h2><span id="objectiveText"></span>: Z = <span id="objectiveFunction"></span></h2>
+  <div id="standardForm" style="display: flex; justify-content: center; align-items: center;">
+    <div>
+      <h3>sujeto a</h3>
+      <pre id="constraints"></pre>
+    </div>
+    <img src="flecha.png" alt="Flecha" class="arrow">
+    <div>
+      <h3>sujeto a</h3>
+      <pre id="standardConstraints"></pre>
+    </div>
+  </div>
+  <p id="variableConstraints"></p>
+  <p>Pasamos a construir la solución por método Simplex.</p>
+  <div class="buttons">
+    <button onclick="Volver()">Volver</button>
+    <button onclick="solucionar()">Soluciónar</button>
+    <button onclick="guardar()">Guardar el ejercicio</button>
+  </div>
+</div>
+
+<script>
+  function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      variables: parseInt(params.get('variables')),
+      restricciones: parseInt(params.get('restricciones')),
+      objective: params.get('objective'),
+      function: params.get('function').split(','),
+      constraints: params.get('constraints').split(';')
+    };
+  }
+
+  function buildResultPage() {
+    const { variables, restricciones, objective, function: objectiveFunction, constraints } = getQueryParams();
+
+    // Set objective (Maximizar/Minimizar)
+    const objectiveText = objective === 'maximizar' ? 'MAXIMIZAR' : 'MINIMIZAR';
+    document.querySelector('h2 span#objectiveText').innerText = objectiveText;
+
+    // Build objective function
+    const objectiveFunctionStr = objectiveFunction.map((coef, i) => `${coef} X${i + 1}`).join(' + ');
+    document.getElementById('objectiveFunction').innerText = objectiveFunctionStr;
+
+    // Build constraints
+    let constraintsStr = '';
+    let standardConstraintsStr = '';
+    let constraintDetailsStr = '';
+    let slackVariableIndex = variables + 1; // Index for new variables
+
+    constraints.forEach((constraint, i) => {
+      const terms = constraint.split(',');
+      const lhs = terms.slice(0, variables).map((coef, j) => `${coef} X${j + 1}`).join(' + ');
+      const sign = terms[variables];
+      const rhs = terms[variables + 1];
+
+      constraintsStr += `${lhs} ${sign} ${rhs}\n`;
+
+      // Standard form
+      let slackVar = '';
+      let slackCoefficient = '';
+      let artificialVar = '';
+      if (sign === '<=') {
+        slackVar = `X${slackVariableIndex}`;
+        slackCoefficient = '+ 1';
+        constraintDetailsStr += `<li>Como la restricción ${i + 1} es del tipo '≤' se agrega la variable de holgura ${slackVar}.</li>`;
+        slackVariableIndex++;
+      } else if (sign === '>=') {
+        slackVar = `X${slackVariableIndex}`;
+        slackCoefficient = '- 1';
+        artificialVar = `X${slackVariableIndex + 1}`;
+        constraintDetailsStr += `<li>Como la restricción ${i + 1} es del tipo '≥' se agrega la variable de exceso ${slackVar} y la variable artificial ${artificialVar}.</li>`;
+        slackVariableIndex += 2;
+      } else if (sign === '=') {
+        artificialVar = `X${slackVariableIndex}`;
+        constraintDetailsStr += `<li>Como la restricción ${i + 1} es del tipo '=' se agrega la variable artificial ${artificialVar}.</li>`;
+        slackVariableIndex++;
+      }
+
+      const standardLhs = lhs 
+                          + (slackCoefficient ? ` ${slackCoefficient} ${slackVar}` : '') 
+                          + (artificialVar ? ` + ${artificialVar}` : '');
+      standardConstraintsStr += `${standardLhs} = ${rhs}\n`;
+    });
+
+    document.getElementById('constraints').innerText = constraintsStr;
+    document.getElementById('standardConstraints').innerText = standardConstraintsStr;
+    document.getElementById('constraintDetails').innerHTML = constraintDetailsStr;
+
+    // Set variable constraints
+    let variableConstraintsHTML = '';
+    for (let i = 1; i < slackVariableIndex; i++) {
+      variableConstraintsHTML += `X${i}`;
+      if (i < slackVariableIndex - 1) variableConstraintsHTML += ', ';
+    }
+    variableConstraintsHTML += ' ≥ 0';
+    document.getElementById('variableConstraints').innerText = variableConstraintsHTML;
+  }
+
+  function Volver() {
+    window.history.back();
+  }
+
+  function solucionar() {
+    const { variables, restricciones, objective, function: objectiveFunction, constraints } = getQueryParams();
+  const queryParams = new URLSearchParams({
+    variables,
+    restricciones,
+    objective,
+    function: objectiveFunction.join(','),
+    constraints: constraints.join(';')
+  }).toString();
+  window.location.href = `solucionar.html?${queryParams}`;
+  }
+
+  function guardar() {
+    // Logic for "Guardar el ejercicio" button
+  }
+
+  document.addEventListener('DOMContentLoaded', buildResultPage);
+</script>
+
+</body>
+</html>

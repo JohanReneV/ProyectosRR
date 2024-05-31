@@ -1,0 +1,7 @@
+C:\Users\Paula\Desktop\ExecutablModelos\Executable@N2\Executable@N2\bin\Debug\Executable@N2.exe.config
+C:\Users\Paula\Desktop\ExecutablModelos\Executable@N2\Executable@N2\bin\Debug\Executable@N2.exe
+C:\Users\Paula\Desktop\ExecutablModelos\Executable@N2\Executable@N2\bin\Debug\Executable@N2.pdb
+C:\Users\Paula\Desktop\ExecutablModelos\Executable@N2\Executable@N2\obj\Debug\Executable@N2.csproj.AssemblyReference.cache
+C:\Users\Paula\Desktop\ExecutablModelos\Executable@N2\Executable@N2\obj\Debug\Executable@N2.csproj.CoreCompileInputs.cache
+C:\Users\Paula\Desktop\ExecutablModelos\Executable@N2\Executable@N2\obj\Debug\Executable@N2.exe
+C:\Users\Paula\Desktop\ExecutablModelos\Executable@N2\Executable@N2\obj\Debug\Executable@N2.pdb

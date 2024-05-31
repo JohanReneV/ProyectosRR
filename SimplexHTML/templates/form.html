@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Formulario Simplex</title>
+<style>
+body {
+  background-color: #e0f2f7;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+.header {
+  background-color: #005cbf;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  width: 100%;
+}
+.button {
+  background-color: #005cbf;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+input[type="text"] {
+  width: 50px;
+  margin: 0 5px;
+}
+form p, .header h1, .content h2 {
+  margin: 15px 0;
+}
+select {
+  margin-left: 10px;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Metodo-Simplex</h1>
+</div>
+<div class="content" id="formContent">
+  <h2>Metodo-Simplex</h2>
+  <form id="simplexForm" onsubmit="return handleSubmit()">
+    <p>¿Cuál es el objetivo de la función? 
+      <select name="objective">
+        <option value="maximizar">Maximizar</option>
+        <option value="minimizar">Minimizar</option>
+      </select>
+    </p>
+    <div id="function"></div>
+    <div id="restrictions"></div>
+    <p id="variableConstraints"></p>
+    <button type="submit" class="button">Continuar</button>
+  </form>
+</div>
+
+<script>
+  function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      variables: parseInt(params.get('variables')),
+      restricciones: parseInt(params.get('restricciones'))
+    };
+  }
+
+  function createForm(variables, restricciones) {
+    const functionDiv = document.getElementById('function');
+    const restrictionsDiv = document.getElementById('restrictions');
+    const variableConstraintsP = document.getElementById('variableConstraints');
+
+    // Create function inputs
+    let funcHTML = 'Función: ';
+    for (let i = 1; i <= variables; i++) {
+      funcHTML += `<input type="text" name="x${i}"> X${i} `;
+      if (i < variables) funcHTML += '+ ';
+    }
+    functionDiv.innerHTML = funcHTML;
+
+    // Create restrictions inputs
+    let restrHTML = 'Restricciones:';
+    for (let i = 1; i <= restricciones; i++) {
+      restrHTML += '<p>';
+      for (let j = 1; j <= variables; j++) {
+        restrHTML += `<input type="text" name="r${i}x${j}"> X${j} `;
+        if (j < variables) restrHTML += '+ ';
+      }
+      restrHTML += `<select name="signo${i}">
+                      <option value="<=">≤</option>
+                      <option value="=">=</option>
+                      <option value=">=">≥</option>
+                    </select> 
+                    <input type="text" name="b${i}">
+                    </p>`;
+    }
+    restrictionsDiv.innerHTML = restrHTML;
+
+    // Create variable constraints
+    let variableConstraintsHTML = '';
+    for (let i = 1; i <= variables; i++) {
+      variableConstraintsHTML += `X${i}`;
+      if (i < variables) variableConstraintsHTML += ', ';
+    }
+    variableConstraintsHTML += ' ≥ 0';
+    variableConstraintsP.innerHTML = variableConstraintsHTML;
+  }
+
+  function handleSubmit() {
+    const form = document.getElementById('simplexForm');
+    const formData = new FormData(form);
+    const variables = getQueryParams().variables;
+    const restricciones = getQueryParams().restricciones;
+    const objective = formData.get('objective');
+
+    const objectiveFunction = [];
+    for (let i = 1; i <= variables; i++) {
+      objectiveFunction.push(formData.get(`x${i}`));
+    }
+
+    const constraints = [];
+    for (let i = 1; i <= restricciones; i++) {
+      const constraint = [];
+      for (let j = 1; j <= variables; j++) {
+        constraint.push(formData.get(`r${i}x${j}`));
+      }
+      constraint.push(formData.get(`signo${i}`));
+      constraint.push(formData.get(`b${i}`));
+      constraints.push(constraint.join(','));
+    }
+
+    const queryString = `variables=${variables}&restricciones=${restricciones}&objective=${objective}&function=${objectiveFunction.join(',')}&constraints=${constraints.join(';')}`;
+    window.location.href = `result.html?${queryString}`;
+    return false;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const { variables, restricciones } = getQueryParams();
+    createForm(variables, restricciones);
+  });
+</script>
+
+</body>
+</html>
